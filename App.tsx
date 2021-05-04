@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, Platform, StyleSheet, Text, View } from "react-native";
 import { MovieCard } from "./components/movie-card";
 import { Rating } from "./components/rating";
+import { CONSTANTS } from "./constants";
 
 interface Movie {
   id: string;
@@ -65,7 +66,14 @@ export default function App() {
     <View style={styles.container}>
       <FlatList
         data={moviesList}
+        bounces={false}
         horizontal={true}
+        decelerationRate={Platform.OS === "ios" ? 0 : 0.98}
+        renderToHardwareTextureAndroid
+        contentContainerStyle={{ alignItems: "center" }}
+        snapToInterval={CONSTANTS.CARD_SIZE}
+        snapToAlignment="start"
+        showsHorizontalScrollIndicator={false}
         renderItem={({ item }: { item: Movie }) => (
           <MovieCard poster={item.poster}>
             <Text style={styles.movieTitle}>{item.title}</Text>
@@ -87,7 +95,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: "10%",
   },
   movieTitle: {
     fontSize: 18,
