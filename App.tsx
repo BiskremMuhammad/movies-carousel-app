@@ -82,8 +82,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 10,
-    borderColor: "blue",
     backgroundColor: "#fff",
     display: "flex",
     flexDirection: "column",
