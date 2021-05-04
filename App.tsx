@@ -1,6 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { MovieCard } from "./components/movie-card";
+import { Rating } from "./components/rating";
 
 interface Movie {
   id: string;
@@ -61,8 +63,18 @@ const moviesList: Movie[] = [
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <FlatList
+        data={moviesList}
+        horizontal={true}
+        renderItem={({ item }: { item: Movie }) => (
+          <MovieCard poster={item.poster}>
+            <Text style={styles.movieTitle}>{item.title}</Text>
+            <Rating value={item.rating} />
+            <Text style={styles.movieDescription}>{item.description}</Text>
+          </MovieCard>
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 }
@@ -70,8 +82,21 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    borderWidth: 10,
+    borderColor: "blue",
     backgroundColor: "#fff",
+    display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    paddingBottom: "10%",
+  },
+  movieTitle: {
+    fontSize: 18,
+    textTransform: "uppercase",
+    marginVertical: 12,
+  },
+  movieDescription: {
+    fontSize: 11,
   },
 });
